@@ -6,7 +6,8 @@ block
 This specific file is built to use inside JATOS as a loca (can also be remote) server-->
 <head>
   <title>N-Back</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+  <script src="/study_assets/creactive/jquery.min.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/jspsych.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-text.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-single-stim-mouse.js"></script>
@@ -58,10 +59,17 @@ var inst_block = {
           "<p>Age: " + age + "</p>" + languageSelect
     */
 };
+// var inst_two = {
+//   type: "text",
+//   text: nBackInst.intTwo,
+//   cont_key: "mouse"
+// };
 var inst_two = {
-  type: "text",
-  text: nBackInst.intTwo,
-  cont_key: "mouse"
+  type: 'button-response',
+  stimulus: nBackInst.instTwo,
+  choices: ['Continue'],
+  is_html: true,
+  button_html: "<a class='jspsych-btn'>%choice%</a>"
 };
 // creating the array who decides when distractor and when target
 // need to be first 3 distractors. Afterwards, 10 targets out of 30.

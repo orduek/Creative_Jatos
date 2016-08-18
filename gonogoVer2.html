@@ -4,13 +4,14 @@
 
 
   <title>Go NoGo</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="/study_assets/creactive/jquery.min.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/jspsych.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-text.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-button-response.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-single-stim-mouse.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-categorize-mouse.js"></script>
   <script src="/assets/javascripts/jatos.js"></script>
+  <script src="/study_assets/creactive/config.js"></script>
 
   <link href="/study_assets/creactive/jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
   <link href="/study_assets/creactive/creactive-tasks.css" rel="stylesheet" type="text/css"></link>
@@ -33,22 +34,25 @@ age = prompt("What is your age?");
   // Set the variables for each age.
   var stimExp = 0;
   var maxTime= 0;
+  var ageCount = 0; // set how many trials to feedback
+
   if (age == 0) {
     stimExp = 1000;
     maxTime = 1000;
+    ageCount = 5;
 
   } else if (age > 0 && age < 5) {
     stimExp = 2000;
     maxTime = 2000;
-
+    ageCount = 5;
   } else if (age >= 5 && age <= 10) {
     stimExp = 1000;
     maxTime = 1000;
-
+    ageCount = 5;
   } else if (age > 10) {
     stimExp = 500;
     maxTime = 1000;
-
+    ageCount = 10;
   }
 
 
@@ -57,12 +61,12 @@ age = prompt("What is your age?");
   var instructions_block = {
     type: "text",
     cont_key: "mouse",
-    text: "<div dir='rtl'> <p>בניסוי זה תפוח יופיע במרכז המסך</p> <p>אם התפוח הוא <strong>אדום</strong>, לחץ על המסך מהר הכי מהר שאתה יכול</p> <p>אם התפוח הוא <strong>ירוק</strong>, אל תלחץ על כלום.</p> <div class='left center-content'><img src='/study_assets/creactive/static/images/redapple.jpg'></img> <p class='small'><strong>לחץ על המסך</strong></p></div> <div class='right center-content'><img src='/study_assets/creactive/static/images/greenapple.jpg'></img> <p class='small'><strong>אל תלחץ על כלום</strong></p></div> <p>לחץ על המסך בכדי להתחיל.</p></div>"
+    text: gonogoInst.instOne
   };
 
   var after_practice = {
   type: 'button-response',
-  stimulus: "<div dir='rtl'><br>האימון הסתיים. לחץ על הכפתור המתאים לחזרה על האימון או לחץ להתחלת המשחק!</br> </div>",
+  stimulus: gonogoInst.afterPractice,
   choices: ['Repeat', 'Continue'],
   is_html: true,
   button_html: "<a class='jspsych-btn'>%choice%</a>"
@@ -114,10 +118,20 @@ for(i=0;i<practice_trials.length;i++) {
     );
 };
 
+// if trial_data
+
+var if_trial = {
+    type: 'single-stim-mouse',
+    stimulus: "<div id='goNoGoFeedBack'><img src='/study_assets/creactive/static/images/manyApples.png'></img>",
+    is_html: true,
+    timing_stim: 500,
+    response_ends_trial: false
+}
+////
 // adding option to use short RT (100ms) as bad feedback
 var trial_data = jsPsych.data.getLastTrialData();
 var snd = new Audio("/study_assets/creactive/static/audio/buzzer.mp3"); // an audio file with woohooo sound
-
+var countingTrials = 0;  //counting trials to put feedback every 5/10 trials.
 
 var blockOneTimeline = [];
 for(i=0;i<all_trials.length;i++) {
@@ -128,8 +142,31 @@ for(i=0;i<all_trials.length;i++) {
       timing_stim: 200,
       timing_response: 200,
       data: {response: "fixation"}
-      
-    }, all_trials[i]
+
+    }, all_trials[i],
+    {
+          timeline: [if_trial],
+          conditional_function: function(){
+            var data = jsPsych.data.getLastTrialData();
+            // create an if sequence that checks if a key was pressed, then if it was under fixation point or actuall stimulus. Then if is was a "go" trial. If it was all that (key_pressed, go trial, correct answer) then check if it was number 5 or not. If so, show basket with apples. If not - move to next trial.
+            if (data.key_press!=-1) {
+              if (data.response=='fixation'){
+                return false;
+            } else {
+              console.log(countingTrials);
+              if (data.response=='go') { // do it only after go trials
+                if (countingTrials%ageCount===0) {
+                return true; };
+              } else {
+                return false;
+              };
+                  return false;
+                };
+              };
+            },
+
+
+        }
 
     );
 };
@@ -145,12 +182,12 @@ var practice_block_one = {
       timing_response: maxTime,
       on_finish: function(trial_data) {
         if (trial_data.response=='fixation'){
-          
+
         } else {
         if (trial_data.rt>-1 && trial_data.rt<100){
-          snd.play();  
+          snd.play();
          }
-       } 
+       }
      }
 
 }
@@ -163,13 +200,28 @@ var block_one = {
       incorrect_text: " ",
       timeout_message: " ",
       timing_stim: stimExp,
-      timing_response: maxTime
+      timing_response: maxTime,
+      on_finish: function(trial_data) {
+            if (trial_data.response=='fixation'){
+
+            } else {
+              if (trial_data.response=='go') {
+                if (trial_data.correct) {
+                  countingTrials++;
+                } else {
+                  countingTrials=countingTrials;
+                }
+              } else {
+                countingTrials=countingTrials;
+              }
+            }
+         }
 
     };
 
 var after_practice = {
   type: 'button-response',
-  stimulus: "<div dir='rtl'><br>האימון הסתיים. לחץ על הכפתור המתאים לחזרה על האימון או לחץ להתחלת המשחק!</br> </div>",
+  stimulus: gonogoInst.afterPractice,
   choices: ['Repeat', 'Continue'],
   is_html: true,
   button_html: "<a class='jspsych-btn'>%choice%</a>"

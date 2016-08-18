@@ -10,7 +10,7 @@
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-single-stim-mouse.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-categorize-mouse.js"></script>
   <script src="/assets/javascripts/jatos.js"></script>
-  
+  <script src="/study_assets/creactive/config.js"></script>
   <link href="/study_assets/creactive/jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
   <link href="/study_assets/creactive/creactive-tasks.css" rel="stylesheet" type="text/css"></link>
 </head>
@@ -75,7 +75,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
   var posDown = "'" + 'antImageDown' + "'";
   var posUp = "'" + 'antImageUp' + "'";
 
-  var cues = [cueUp,cueDown,cueUp,cueDown,cueUp,cueDown,cueUp,cueDown]; 
+  var cues = [cueUp,cueDown,cueUp,cueDown,cueUp,cueDown,cueUp,cueDown];
   shuffle(cues);
   // building the 24 times position will be set randomly
   var upArray = fillArray(posUp,12);
@@ -96,7 +96,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
   blockNo = blockNo;
   for (i=0;i<condition.length;i++) {
     switch(condition[i]) {
-      
+
       case 'noCongLeft':
         image = imgCongLeft;
         cue = '';
@@ -123,7 +123,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'spatialCongLeft':
         image = imgCongLeft;
-        cue = cues.pop(); 
+        cue = cues.pop();
         cueKind = "spatial";
         direction = "left";
         congruency = 'congruent';
@@ -132,26 +132,26 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
           } else {
             imgPos = posUp;
           }
-        break;  
+        break;
       case 'noCongRight':
         image = imgCongRight;
-        cue = ''; 
+        cue = '';
         cueKind = "none";
         direction = "right";
         congruency = 'congruent';
         imgPos = upDownArray.pop();
-        break; 
+        break;
       case 'doubleCongRight':
         image = imgCongRight;
         cue = cueDouble;
         direction = "right";
         cueKind = "double";
-        congruency = 'congruent'; 
+        congruency = 'congruent';
         imgPos = upDownArray.pop();
         break;
       case 'centerCongRight':
         image = imgCongRight;
-        cue = cueCenter; 
+        cue = cueCenter;
         direction = "right";
         cueKind = "center";
         congruency = 'congruent';
@@ -171,7 +171,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'noIncongLeft':
         image = imgInCongLeft;
-        cue = ''; 
+        cue = '';
         cueKind = "none";
         direction = "left";
         congruency = 'incongruent';
@@ -179,7 +179,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'doubleIncongLeft':
         image = imgInCongLeft;
-        cue = cueDouble; 
+        cue = cueDouble;
         cueKind = "double";
         direction = "left";
         congruency = 'incongruent';
@@ -187,7 +187,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'centerIncongLeft':
         image = imgInCongLeft;
-        cue = cueCenter; 
+        cue = cueCenter;
         cueKind = "center";
         direction = "left";
         congruency = 'incongruent';
@@ -195,7 +195,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'spatialInCongLeft':
         image = imgInCongLeft;
-        cue = cues.pop(); 
+        cue = cues.pop();
         cueKind = "spatial";
         direction = "left";
         congruency = 'incongruent';
@@ -207,7 +207,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'noIncongRight':
         image = imgIncongRight;
-        cue = ''; 
+        cue = '';
         cueKind = "none";
         direction = "right";
         congruency = 'incongruent';
@@ -215,7 +215,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'doubleIncongRight':
         image = imgIncongRight;
-        cue = cueDouble; 
+        cue = cueDouble;
         cueKind = "double";
         direction = "right";
         congruency = 'incongruent';
@@ -223,7 +223,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'centerIncongRight':
         image = imgIncongRight;
-        cue = cueCenter; 
+        cue = cueCenter;
         cueKind = "center";
         direction = "right";
         congruency = 'incongruent';
@@ -231,7 +231,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         break;
       case 'spatialInCongRight':
         image = imgIncongRight;
-        cue = cues.pop(); 
+        cue = cues.pop();
         cueKind = "spatial";
         direction = "right";
         congruency = 'incongruent';
@@ -262,7 +262,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         data: {trial: "cue"},
         //timing_response: 300,
         button_html: "<button class='ant-btn'></button>"
-        
+
       },
       {
         stimulus: "<DIV id='antFixationPoint'>+</DIV>",
@@ -273,7 +273,7 @@ function buildBlockTimeline (imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRig
         timing_stim: 450,
         response_ends_trial: false,
         button_html: "<button class='ant-btn'></button>"
-          
+
       },
       {
         stimulus: "<DIV id=" + imgPos + "><img src=" + image + "></DIV>",
@@ -306,7 +306,7 @@ block_three = buildBlockTimeline('/study_assets/creactive/static/images/mouse_ll
 var practice_timeline = buildBlockTimeline(imgCongLeft,imgCongRight,imgInCongLeft,imgIncongRight,"practice", jsPsych.randomization.sample(condition, 16, true));
 
 var presentation_timline = [
-      
+
     {
         stimulus: "<DIV id='antFixationPoint'>+</DIV>",
         is_html: true,
@@ -324,7 +324,7 @@ var presentation_timline = [
         timing_response: 5000,
         timing_stim: 5000,
         button_html: "<button class='ant-btn'></button>"
-        
+
       },
       {
         stimulus: "<DIV id='antFixationPoint'>+</DIV>",
@@ -343,7 +343,7 @@ var presentation_timline = [
         timing_response: 5000,
         timing_stim: 5000,
         button_html: "<button class='ant-btn'></button>"
-        
+
       },
       {
         stimulus: "<DIV id='antFixationPoint'>+</DIV>",
@@ -362,7 +362,7 @@ var presentation_timline = [
         timing_response: 5000,
         timing_stim: 5000,
         button_html: "<button class='ant-btn'></button>"
-        
+
       },
      {
         stimulus: "<DIV id='antFixationPoint'>+</DIV>",
@@ -381,9 +381,9 @@ var presentation_timline = [
         timing_response: 5000,
         timing_stim: 5000,
         button_html: "<button class='ant-btn'></button>"
-        
+
       }
- 
+
 ];
 
 var snd = new Audio("/study_assets/creactive/static/audio/woohoo2.wav"); // an audio file with woohooo sound
@@ -470,7 +470,7 @@ var first_stage = {
 
 var presentationBlock = {
     type: 'button-response',
-    prompt: "<div dir='rtl'><br>ברוך הבא.</br> <br>אתה צריך להאכיל את הדגים. </br> <br> לכן, כאשר הדג מסתכל שמאלה, עלייך ללחוץ על החלק השמאלי, כאשר הדג מסתכל ימינה, עלייך ללחוץ על החלק הימני</br> <br> בוא ננסה את זה</br> </div>" ,
+    prompt: antInst.presentationBlockInst,
     choices: ["continue to next block"],
   };
 
@@ -482,13 +482,13 @@ var practiceBlock = {
 
 var instructionsFirstBlock = {
   type: 'button-response',
-  prompt: "<div dir='rtl'><br>ברוך הבא.</br> <br>אתה צריך להאכיל את הדגים. </br> <br> לכן, כאשר הדג מסתכל שמאלה, עלייך ללחוץ על החץ השמאלי, כאשר הדג מסתכל ימינה, עלייך ללחוץ על החץ הימני</br> </div>",
+  prompt: antInst.presentationBlockInst,
   choices: ["continue to next block"],
 };
 
 var between_stageOneTwo = {
   type: 'button-response',
-  prompt: "<div dir='rtl'> <br>עבודה נפלאה!!<br> <br> עכשיו הציפורים צריכות לאכול</br> <br> לכן, כאשר ציפור מסתכלת ימינה, עלייך ללחוץ על החץ הימני. כאשר היא מסתכלת שמאלה, עלייך ללחוץ על החץ השמאלי</br> </div>",
+  prompt: antInst.betweenOneTwoInst,
   choices: ["continue to next block"],
   on_finish: function() {
     document.body.style.background = "#00ff00"
@@ -498,7 +498,7 @@ var between_stageOneTwo = {
 
 var between_stageTwoThree = {
   type: 'button-response',
-  prompt: "<div dir='rtl'> <br>עבודה נפלאה!!<br> <br> עכשיו העכברים צריכים לאכול</br> <br> לכן, כאשר עכבר מסתכל ימינה, עלייך ללחוץ על החץ הימני. כאשר הוא מסתכל שמאלה, עלייך ללחוץ על החץ השמאלי</br> </div>",
+  prompt: antInst.betweenTwoThreeInst,
   choices: ["continue to next block"],
   on_finish: function() {
     document.body.style.background = "#ff8080";

@@ -1,14 +1,15 @@
 <html>
 <head>
     <title>CorsiBlock</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
- 	  <script src="/study_assets/creactive/jspsych-5.0.3/jspsych.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+    <script src="/study_assets/creactive/jquery.min.js"></script>
+    <script src="/study_assets/creactive/jspsych-5.0.3/jspsych.js"></script>
   	<script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-call-function.js"></script>
     <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-text.js"></script>
     <script src="/study_assets/creactive/jspsych-5.0.3/plugins/plugin-corsi.js"></script>
     <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-button-response.js"></script>
     <script src="/assets/javascripts/jatos.js"></script>
-
+    <script src="/study_assets/creactive/config.js"></script>
     <link href="/study_assets/creactive/jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     <link href="/study_assets/creactive/creactive-tasks.css" rel="stylesheet" type="text/css"></link>
 </head>
@@ -47,7 +48,7 @@ jsPsych.data.addProperties({
 
 var instructions = {
   type: "text",
-  text: "<div id='corsiText' dir='rtl'><p> בחלק זה של המטלה עלייך לחזור על הרצף שהוצג מהסוף להתחלה (לחזור בסדר הפוך) </p></div>",
+  text: corsiInst.instTwo,
   timing_post_trial: 2000,
   cont_key: "mouse"
 };
@@ -72,7 +73,7 @@ var checkIfMaxNumberOfWrongs = function (data) {
   /* define instructions block */
   var instructions_block = {
     type: "text",
-    text: "<div id='corsiText' dir='rtl'><p>במטלה הבאה יוצגו לפנייך עשרה ריבועים. </p> <br> בכל צעד, כמה מהם יסומנו בסדר מסויים.</br> <br>כאשר הרצף יסתיים, עלייך לחזור על הרצף באותה צורה. </br> </div>",
+    text: corsiInst.instOne,
     timing_post_trial: 2000,
     cont_key: "mouse"
   };
@@ -99,7 +100,7 @@ var backwardPractice = {
 }
 var after_practice = {
     type: 'button-response',
-    stimulus: "<div dir='rtl'><br> האימון הסתיים</br> <br> לחזרה על האימון או המשך למטלה, לחץ על הכפתור המתאים</br> </div>",
+    stimulus: corsiInst.afterPractice,
     choices: ['Repeat', 'Continue'],
     is_html: true,
     button_html: "<a class='jspsych-btn'>%choice%</a>"

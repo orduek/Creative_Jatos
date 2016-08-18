@@ -26,13 +26,14 @@ DOT SIZE - base dot size is 36px. variance 20.
 
 <head>
 	<title>Dot Comparison Task</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+  <script src="/study_assets/creactive/jquery.min.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/jspsych.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-text.js"></script>
  	<script src="/study_assets/creactive/snap.svg-min.js"></script>
   <script src="/assets/javascripts/jatos.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-dotcomparison_button.js"></script>
-
+  <script src="/study_assets/creactive/config.js"></script>
     <link href="/study_assets/creactive/jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     <link href="/study_assets/creactive/creactive-tasks.css" rel="stylesheet" type="text/css"></link>
 </head>
@@ -106,7 +107,7 @@ var block_forward = {
   /* define instructions block */
   var instructions_block = {
     type: "text",
-    text: "<div id='experimentDiv' dir='rtl'><p>ניסוי זה יכלול מספר רב של צעדים.</p> בכל צעד, אתה תראה נקודות צבעוניות לזמן קצר על המסך. משימתך היא לקבוע איזה צבע היה עם יותר נקודות. <br> אם יש יותר נקודות צהובות, לחץ על 'f' .</br> <br>אם יש יותר נקודות כחולות לחץ על 'j'.</br> </div> ",
+    text: dotCompInst.instOne,
     timing_post_trial: 2000,
 		cont_key: "mouse"
   };

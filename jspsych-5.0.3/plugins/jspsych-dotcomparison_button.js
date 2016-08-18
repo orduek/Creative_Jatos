@@ -33,7 +33,7 @@
 			// this array holds handlers from setTimeout calls
 			// that need to be cleared if the trial ends early
 			var setTimeoutHandlers = [];
-
+			var rt;
 			if (trial.ratio == '1:2') {
 				console.log('1:2');
 				// set amount of dots per color
@@ -202,6 +202,7 @@
 
 			// setting answer variable to compare for correct or incorrect
 			var answer;
+			var start_time;
 			function runTrial() {
 			//	document.removeEventListener('keydown',runTrial());
 				console.log("RunTrial");
@@ -323,21 +324,22 @@
                     moreGroup.remove();
                     lessGroup.remove();
                     rect.attr ({
-                        fill: s.image("static/images/random_background.png",0,0,30,30).pattern(0,0,30,30)
+                        fill: s.image("/study_assets/creactive/static/images/random_background.png",0,0,30,30).pattern(0,0,30,30)
                     });
                 },500);
 
                 // should add mask here.
-
-
+                start_time = (new Date()).getTime();
+               
 			}
 
 			 setTimeout(runTrial,1250);
 			 function ask() {
-			 	var askWhich = s.text(200,350, "באיזה צבע יש יותר נקודות?"); 
+			 	var askWhich = s.text(300,350, dotCompInst.askDot);
 				askWhich.attr({
                     fill: "white",
-                    'font-size': 20
+                    'font-size': 20,
+
                 });
 
 
@@ -357,12 +359,16 @@
 								var btn1 = s.group(block1);
 								var btn2 = s.group(block2);
 								btn1.click( function( ev  ) {
+									
 								    btn1.attr({ opacity: 0.5 });
+										rt = (new Date()).getTime() - start_time - 1250; //delay of runTrial
 										var response = 70;
 										after_response(response);
 								    });
 								btn2.click( function( ev  ) {
+									
 								    btn2.attr({ opacity: 0.5 });
+								    	rt = (new Date()).getTime() - start_time - 1250; //delay of runTrial
 										var response = 74;
 										after_response(response);
 								    });
@@ -374,7 +380,7 @@
 					var response = {rt: -1, key: -1};
 				// function to end trial when it is time
 				var end_trial = function() {
-
+					console.log(rt);
 					// kill any remaining setTimeout handlers
 					for (var i = 0; i < setTimeoutHandlers.length; i++) {
 						clearTimeout(setTimeoutHandlers[i]);
@@ -393,7 +399,7 @@
 					}
 					// gather the data to store for the trial
 					var trial_data = {
-						"rt": response.rt,  // adding minux delay (should be 2500 or something like it). Same delay as ask()
+						"rt": rt,  // adding minux delay (should be 2500 or something like it). Same delay as ask()
 						"lessDot": lessDot,
 						"moreDot": moreDot,
 						"actualRatio": actualRatio,
@@ -427,6 +433,7 @@
 					}
 
 					if (trial.response_ends_trial) {
+
 						end_trial();
 					}
 				};
