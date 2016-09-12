@@ -26,6 +26,7 @@
             trial.condition = params.condition;
             trial.choices = params.choices || [];
             trial.response_ends_trial = true;
+            trial.expTime = params.expTime; // adding ability to control stimulus presentation time
             // timing parameters
             trial.timing_response = params.timing_response || -1; // if -1, then wait for response forever
 
@@ -205,7 +206,7 @@
 			var start_time;
 			function runTrial() {
 			//	document.removeEventListener('keydown',runTrial());
-				console.log("RunTrial");
+				
 				// kill keyboard listeners
 				//if(typeof keyboardListener !== 'undefined'){
 				//	jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
@@ -237,7 +238,7 @@
 					xMoremax = 350;
 					answer = 70;
 				}
-				console.log(lessColor);
+				
 
 
 				var lessPlaceList = []; // array of circle objects of the less group
@@ -260,7 +261,7 @@
 					// here I should check for colission and return different values before creating the circle
 					var circle = new createCircle(x,y,lessDotSize[i]);
 					var check = checkCollision(circle,lessPlaceList);
-					console.log(check);
+					//console.log(check);
 					while (check>=1) {
 						cord = coordinates(xLessmin,xLessmax);
 						x = cord[0];
@@ -271,7 +272,7 @@
 						check =checkCollision(circle,lessPlaceList);
 						}
 					lessGroup = s.group(lessGroup,circle);
-					console.log(lessGroup);
+					//console.log(lessGroup);
 				 	lessPlaceList.push(circle);
 					// circle.attr ({
 					// 	fill: lessColor
@@ -326,14 +327,14 @@
                     rect.attr ({
                         fill: s.image("/study_assets/creactive/static/images/random_background.png",0,0,30,30).pattern(0,0,30,30)
                     });
-                },500);
+                },trial.expTime);
 
                 // should add mask here.
                 start_time = (new Date()).getTime();
                
 			}
 
-			 setTimeout(runTrial,1250);
+			 setTimeout(runTrial,1250); // time of fixation (1000ms) + 250ms.
 			 function ask() {
 			 	var askWhich = s.text(300,350, dotCompInst.askDot);
 				askWhich.attr({
@@ -374,8 +375,9 @@
 								    });
               //  setKeyboardListener();
 			 }
-
-			 setTimeout(ask, 2500);
+			 var timeToWait = 2000 + trial.expTime;
+			 console.log(timeToWait)
+			 setTimeout(ask, timeToWait);// timeout based on 1000ms of fixation + time of presentation + time of mask (250ms)
 				// store response
 					var response = {rt: -1, key: -1};
 				// function to end trial when it is time

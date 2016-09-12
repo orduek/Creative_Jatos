@@ -34,6 +34,7 @@ DOT SIZE - base dot size is 36px. variance 20.
   <script src="/assets/javascripts/jatos.js"></script>
   <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-dotcomparison_button.js"></script>
   <script src="/study_assets/creactive/config.js"></script>
+  <script src="/study_assets/creactive/jspsych-5.0.3/plugins/jspsych-button-response.js"></script>
     <link href="/study_assets/creactive/jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     <link href="/study_assets/creactive/creactive-tasks.css" rel="stylesheet" type="text/css"></link>
 </head>
@@ -51,6 +52,15 @@ jsPsych.data.addProperties({
 
 age = prompt("What is your age?");
 
+ if (age < 4) {
+        stimTime = 2500;
+
+      } else if (age >= 4 && age <= 6 ) {
+        stimTime = 1200;
+
+      } else if (age > 6) {
+        stimTime = 750;
+      }; 
 
 //function that will shuffle an array
 function shuffle(array) {
@@ -94,10 +104,54 @@ for (i = 0; i < 40; i++) {
 }
 
 shuffle(stimuli);
+ var practice_array = [
+     { ratio: '1:2',
+      condition: 'area' },
+      { ratio: '3:4',
+      condition: "average"},
+      {
+      ratio: '1:2',
+      condition: 'area'
+      }
+    ];
+
+var practice = {
+  // a practice block
+  type: 'dotComparison-button',
+  timeline: practice_array,
+  expTime: stimTime,
+  choices: [70,74]
+
+  };
+
+var after_practice = {
+  type: 'button-response',
+  stimulus: gonogoInst.afterPractice,
+  choices: ['Repeat', 'Continue'],
+  is_html: true,
+  button_html: "<a class='jspsych-btn'>%choice%</a>"
+
+};
+
+var practice_loop = {
+  timeline: [practice, after_practice],
+  loop_function: function(){
+      var data =  jsPsych.data.getLastTrialData()     
+      
+      if(data.button_pressed == 0){
+          return true;
+      }
+      else {
+          return false;
+      }
+  }
+
+};
 
 var block_forward = {
       type: 'dotComparison-button',
       timeline: stimuli,
+      expTime: stimTime,
       choices: [70,74]
       //timing_response: 7000,
 
@@ -114,7 +168,7 @@ var block_forward = {
 
 jatos.onLoad(function(){
   jsPsych.init({
-        timeline: [ instructions_block, block_forward],
+        timeline: [ instructions_block, practice_loop, block_forward],
         fullscreen: true,
         on_finish: function() {
 					var resultJson = JSON.stringify(jsPsych.data.getData());

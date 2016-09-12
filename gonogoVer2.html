@@ -36,24 +36,43 @@ age = prompt("What is your age?");
   var maxTime= 0;
   var ageCount = 0; // set how many trials to feedback
 
-  if (age == 0) {
-    stimExp = 1000;
-    maxTime = 1000;
-    ageCount = 5;
+  var post_trial_gap = function() { // should use if to fixation length or timing_Response.
+  		return Math.floor( Math.random() * 1500 ) + 500;
+		}
 
-  } else if (age > 0 && age < 5) {
-    stimExp = 2000;
-    maxTime = 2000;
-    ageCount = 5;
-  } else if (age >= 5 && age <= 10) {
-    stimExp = 1000;
-    maxTime = 1000;
-    ageCount = 5;
-  } else if (age > 10) {
-    stimExp = 500;
-    maxTime = 1000;
-    ageCount = 10;
-  }
+	  if (age == 0) {
+	stimExp = 1000;
+	maxTime = 1000;
+	ageCount = 5;
+
+	} else if (age > 0 && age <= 3) {
+	stimExp = 2000;
+	//maxTime = 2000;
+	ageCount = 5;
+	feedBack = "<div class='under'><img src='/study_assets/creactive/static/images/plate.png'></img><div class='over'><img src='/study_assets/creactive/static/images/redapple.png'></img>";
+	feedBack_duration = 200;
+	} else if (age >3  && age <= 7) {
+	stimExp = 1000;
+	//maxTime = 1000;
+	ageCount = 5;
+	feedBack_duration = 200;
+	feedBack = "<div class='under'><img src='/study_assets/creactive/static/images/plate.png'></img><div class='over'><img src='/study_assets/creactive/static/images/redapple.png'></img>";
+	}
+
+	else if (age > 7 && age <= 10) {
+	stimExp = 500;
+	//maxTime = post_trial_gap();
+	ageCount = 200;
+	feedBack_duration = 10;
+	feedBack = "";
+
+	} else if (age > 10) {
+	stimExp = 500;
+	//maxTime = post_trial_gap();
+	ageCount = 200;
+	feedBack_duration = 10;
+	feedBack = "";
+	}
 
 
 
@@ -80,12 +99,14 @@ age = prompt("What is your age?");
      data: {response: "go"},
      key_answer: "mouse",
      usemouse: true,
+     timing_stim: stimExp
 
      },
      {
       stimulus: '/study_assets/creactive/static/images/greenapple.jpg',
       data: {response: "NoGo"},
       usemouse: true,
+      timing_stim: stimExp
 
      }
      ];
@@ -96,7 +117,7 @@ age = prompt("What is your age?");
 
   } else if (age < 5) {
     var all_trials = jsPsych.randomization.repeat(test_stimuli, [24, 8], false);
-  } else if (5 >= age < 10) {
+  } else if (5 >= age < 7) {
     var all_trials = jsPsych.randomization.repeat(test_stimuli, [60, 20], false);
   } else {
     var all_trials = jsPsych.randomization.repeat(test_stimuli, [90, 30], false);
@@ -108,10 +129,10 @@ var practiceBlockTimeline = [];
 for(i=0;i<practice_trials.length;i++) {
   practiceBlockTimeline.push(
     {
-      stimulus: '<DIV id="goNoGoFixationPoint">+</DIV>',
+      stimulus: '<DIV id="goNoGoFixationPoint">+</DIV>', // removed fixation point
       is_html: true,
-      timing_stim: 200,
-      timing_response: 200,
+      timing_stim: 100,
+      timing_response: 100,
       data: {response: "fixation"}
     }, practice_trials[i]
 
@@ -127,7 +148,7 @@ var if_trial = {
     timing_stim: 500,
     response_ends_trial: false
 }
-////
+//
 // adding option to use short RT (100ms) as bad feedback
 var trial_data = jsPsych.data.getLastTrialData();
 var snd = new Audio("/study_assets/creactive/static/audio/buzzer.mp3"); // an audio file with woohooo sound
@@ -137,10 +158,10 @@ var blockOneTimeline = [];
 for(i=0;i<all_trials.length;i++) {
   blockOneTimeline.push(
     {
-      stimulus: '<DIV id="goNoGoFixationPoint">+</DIV>',
+      stimulus: '<DIV id="goNoGoFixationPoint">+</DIV>', // removed fixation
       is_html: true,
-      timing_stim: 200,
-      timing_response: 200,
+      timing_stim: 100,
+      timing_response: 100,
       data: {response: "fixation"}
 
     }, all_trials[i],
@@ -173,13 +194,13 @@ for(i=0;i<all_trials.length;i++) {
 var practice_block_one = {
   type: "categorize-mouse",
       timeline: practiceBlockTimeline,
-      timing_feedback_duration: 300,
-       correct_text: "<div class='under'><img src='/study_assets/creactive/static/images/plate.png'></img><div class='over'><img src='/study_assets/creactive/static/images/redapple.png'></img>",
+      timing_feedback_duration: feedBack_duration,
+      correct_text: feedBack,
       show_stim_with_feedback: false,
       incorrect_text: " ",
       timeout_message: " ",
       timing_stim: stimExp,
-      timing_response: maxTime,
+      timing_response: post_trial_gap(),
       on_finish: function(trial_data) {
         if (trial_data.response=='fixation'){
 
@@ -194,13 +215,13 @@ var practice_block_one = {
 var block_one = {
       type: "categorize-mouse",
       timeline: blockOneTimeline ,
-      timing_feedback_duration: 300,
-      correct_text: "<div class='under'><img src='/study_assets/creactive/static/images/plate.png'></img><div class='over'><img src='/study_assets/creactive/static/images/redapple.png'></img>",
+      timing_feedback_duration: feedBack_duration,
+      correct_text: feedBack,
       show_stim_with_feedback: false,
       incorrect_text: " ",
       timeout_message: " ",
       timing_stim: stimExp,
-      timing_response: maxTime,
+      timing_response: post_trial_gap(),
       on_finish: function(trial_data) {
             if (trial_data.response=='fixation'){
 
