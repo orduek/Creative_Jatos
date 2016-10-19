@@ -60,7 +60,7 @@ age = prompt("What is your age?");
 
       } else if (age > 6) {
         stimTime = 750;
-      }; 
+      };
 
 //function that will shuffle an array
 function shuffle(array) {
@@ -120,6 +120,7 @@ var practice = {
   type: 'dotComparison-button',
   timeline: practice_array,
   expTime: stimTime,
+  data: {block: "practice"},
   choices: [70,74]
 
   };
@@ -136,8 +137,8 @@ var after_practice = {
 var practice_loop = {
   timeline: [practice, after_practice],
   loop_function: function(){
-      var data =  jsPsych.data.getLastTrialData()     
-      
+      var data =  jsPsych.data.getLastTrialData()
+
       if(data.button_pressed == 0){
           return true;
       }
@@ -152,6 +153,7 @@ var block_forward = {
       type: 'dotComparison-button',
       timeline: stimuli,
       expTime: stimTime,
+      data: {block: "blockOne"},
       choices: [70,74]
       //timing_response: 7000,
 
