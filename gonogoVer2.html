@@ -36,6 +36,13 @@ age = prompt("What is your age?");
   var maxTime= 0;
   var ageCount = 0; // set how many trials to feedback
 
+  var randomArray = function() {
+      // function that take random number from the following array. 
+    var myArray = [200,350,500];
+    var rand = myArray[Math.floor(Math.random() * myArray.length)];
+    return rand;
+    }
+
   var post_trial_gap = function() { // should use if to fixation length or timing_Response.
   		return Math.floor( Math.random() * 300 ) + 100;  // using to randomize fixation point duration
 		}
@@ -131,8 +138,8 @@ for(i=0;i<practice_trials.length;i++) {
     {
       stimulus: '<DIV id="goNoGoFixationPoint">+</DIV>', // removed fixation point
       is_html: true,
-      timing_stim: post_trial_gap(),
-      timing_response: post_trial_gap(),
+      timing_stim: randomArray(),
+      timing_response: randomArray(),
       data: {response: "fixation"}
     }, practice_trials[i]
 
@@ -152,8 +159,8 @@ for(i=0;i<all_trials.length;i++) {
     {
       stimulus: '<DIV id="goNoGoFixationPoint">+</DIV>', // removed fixation
       is_html: true,
-      timing_stim: post_trial_gap(),
-      timing_response: post_trial_gap(),
+      timing_stim: randomArray(),
+      timing_response: randomArray(),
       data: {response: "fixation"}
 
     }, all_trials[i]

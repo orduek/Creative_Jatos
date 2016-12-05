@@ -19,10 +19,11 @@ nBackInst = {
 };
 
 gonogoInst = {
-	instOne: "<div dir='rtl'>	עכשיו נעזור לכיפה אדומה לאסוף תפוחים כדי שאימא תכין עוגה. אימא ביקשה שאלו יהיו רק תפוחים אדומים. כל פעם שתראה תפוח אדום תלחץ עליו כדי לאסוף אותו. אל תלחץ לפני שאתה רואה שהתפוח הוא אדום.	</div>",
+	instOne: "<div dir='rtl'><p>אימא של כיפה אדומה ביקשה ממנה שתעזור לה להכין עוגה. לשם כך אימא ביקשה תפוחים אדומים בלבד. </p><p>לכן, בכל פעם שאת/ה רואה תפוח  <strong>אדום</strong>, לחץ על המסך מהר הכי מהר שאתה יכול</p><p>אם התפוח הוא <strong>ירוק</strong>, אל תלחץ על כלום.</p><div class='left center-content'><img src='/study_assets/creactive/static/images/redapple.jpg'></img><p class='small'><strong>לחץ על המסך</strong></p></div><div class='right center-content'><img src='/study_assets/creactive/static/images/greenapple.jpg'></img><p class='small'><strong>אל תלחץ על כלום</strong></p></div><p>לחץ על המסך בכדי להתחיל.</p></div>",
 	afterPractice: "<div dir='rtl'><br> האימון הסתיים</br> <br> לחזרה על האימון או המשך למטלה, לחץ על הכפתור המתאים</br> </div>"
 
 };
+
 
 antInst = {
 	presentationBlockInst: "<div dir='rtl'>	ברוך הבא. אתה צריך להאכיל את הדג האמצעי. לכן, כאשר הדג האמצעי מסתכל שמאלה, עלייך ללחוץ על החלק השמאלי, כאשר הדג מסתכל ימינה, עלייך ללחוץ על החלק הימני. בוא ננסה את זה.</div>",
